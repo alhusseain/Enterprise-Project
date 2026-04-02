@@ -1,0 +1,59 @@
+package com.example.WorkHub.model;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.TenantId;
+import java.util.UUID;
+
+@Entity
+@Table(name = "project")
+public class Project {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(name = "created_by", nullable = false)
+    private String createdBy;
+
+    @TenantId
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
+
+    public Project() {
+    }
+
+    public UUID getId() { 
+        return id; 
+    }
+    
+    public void setId(UUID id) { 
+        this.id = id; 
+    }
+    
+    public String getName() { 
+        return name; 
+    }
+    
+    public void setName(String name) { 
+        this.name = name; 
+    }
+    
+    public String getCreatedBy() { 
+        return createdBy; 
+    }
+    
+    public void setCreatedBy(String createdBy) { 
+        this.createdBy = createdBy; 
+    }
+    
+    public UUID getTenantId() { 
+        return tenantId; 
+    }
+    
+    public void setTenantId(UUID tenantId) { 
+        this.tenantId = tenantId; 
+    }
+}

@@ -1,0 +1,52 @@
+@startuml Database_Schema
+hide circle
+skinparam linetype ortho
+
+entity "tenant" {
+  * <u>id : UUID <PK> </u>
+  --
+  * name : VARCHAR
+  plan : VARCHAR
+}
+
+entity "app_user" {
+  * <u>id : UUID <PK> </u>
+  --
+  * email : VARCHAR
+  * password_hash : VARCHAR
+  * role : VARCHAR
+  * tenant_id : UUID <FK>
+}
+
+entity "project" {
+  * <u>id : UUID <PK> </u>
+  --
+  * name : VARCHAR
+  * created_by : VARCHAR
+  * tenant_id : UUID <FK> 
+}
+
+entity "task" {
+  * <u>id : UUID <PK> </u>
+  --
+  * title : VARCHAR
+  * status : VARCHAR
+  * version : BIGINT
+  * project_id : UUID <FK>
+  * tenant_id : UUID <FK>
+}
+
+entity "job" {
+  * <u>id: UUID <PK> </u> 
+  --
+  * status : VARCHAR
+  * project_id : UUID <FK>
+  * tenant_id : UUID <FK>
+}
+
+tenant ||..o{ app_user : "tenant_id"
+tenant ||..o{ project : "tenant_id"
+project ||..o{ task : "project_id"
+project ||..o{ job : "project_id"
+
+@enduml
