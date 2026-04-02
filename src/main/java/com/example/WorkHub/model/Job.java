@@ -18,42 +18,43 @@ public class Job {
     @Column(name = "project_id", nullable = false)
     private UUID projectId;
 
-    @TenantId
-    @Column(name = "tenant_id", nullable = false)
+    // @TenantId // re-enable this, and set nullable to false when tenant context
+    // managing is completed
+    @Column(name = "tenant_id", nullable = true)
     private UUID tenantId;
 
     public Job() {
     }
 
-    public UUID getId() { 
-        return id; 
+    public UUID getId() {
+        return id;
     }
-    
-    public void setId(UUID id) { 
-        this.id = id; 
+
+    public void setId(UUID id) {
+        this.id = id;
     }
-    
-    public String getStatus() { 
-        return status; 
+
+    public String getStatus() {
+        return status;
     }
-    
-    public void setStatus(String status) { 
-        this.status = status; 
+
+    public void setStatus(String status) {
+        this.status = status;
     }
-    
-    public UUID getProjectId() { 
-        return projectId; 
+
+    public UUID getProjectId() {
+        return projectId;
     }
-    
-    public void setProjectId(UUID projectId) { 
-        this.projectId = projectId; 
+
+    public void setProjectId(UUID projectId) {
+        this.projectId = projectId;
     }
-    
-    public UUID getTenantId() { 
-        return tenantId; 
+
+    public UUID getTenantId() {
+        return tenantId;
     }
-    
-    public void setTenantId(UUID tenantId) { 
-        this.tenantId = tenantId; 
+
+    public void setTenantId(UUID tenantId) {
+        this.tenantId = tenantId;
     }
 }

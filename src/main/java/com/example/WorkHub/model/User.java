@@ -22,50 +22,51 @@ public class User {
     @Column(nullable = false)
     private String roles;
 
-    @TenantId
-    @Column(name = "tenant_id", nullable = false)
+    // @TenantId // re-enable this, and set nullable to false when tenant context
+    // managing is completed
+    @Column(name = "tenant_id", nullable = true)
     private UUID tenantId;
 
     public User() {
     }
 
-    public UUID getId() { 
-        return id; 
+    public UUID getId() {
+        return id;
     }
-    
-    public void setId(UUID id) { 
-        this.id = id; 
+
+    public void setId(UUID id) {
+        this.id = id;
     }
-    
-    public String getEmail() { 
-        return email; 
+
+    public String getEmail() {
+        return email;
     }
-    
-    public void setEmail(String email) { 
-        this.email = email; 
+
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
-    public @Nullable String getPassword() { 
-        return password; 
+
+    public @Nullable String getPassword() {
+        return password;
     }
-    
-    public void setPassword(@Nullable String encode) { 
-        this.password = encode; 
+
+    public void setPassword(@Nullable String encode) {
+        this.password = encode;
     }
-    
-    public String getRoles() { 
-        return roles; 
+
+    public String getRoles() {
+        return roles;
     }
-    
-    public void setRoles(String roles) { 
-        this.roles = roles; 
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
-    
-    public UUID getTenantId() { 
-        return tenantId; 
+
+    public UUID getTenantId() {
+        return tenantId;
     }
-    
-    public void setTenantId(UUID tenantId) { 
-        this.tenantId = tenantId; 
+
+    public void setTenantId(UUID tenantId) {
+        this.tenantId = tenantId;
     }
 }

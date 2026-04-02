@@ -18,42 +18,43 @@ public class Project {
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
-    @TenantId
-    @Column(name = "tenant_id", nullable = false)
+    // @TenantId // re-enable this, and set nullable to false when tenant context
+    // managing is completed
+    @Column(name = "tenant_id", nullable = true)
     private UUID tenantId;
 
     public Project() {
     }
 
-    public UUID getId() { 
-        return id; 
+    public UUID getId() {
+        return id;
     }
-    
-    public void setId(UUID id) { 
-        this.id = id; 
+
+    public void setId(UUID id) {
+        this.id = id;
     }
-    
-    public String getName() { 
-        return name; 
+
+    public String getName() {
+        return name;
     }
-    
-    public void setName(String name) { 
-        this.name = name; 
+
+    public void setName(String name) {
+        this.name = name;
     }
-    
-    public String getCreatedBy() { 
-        return createdBy; 
+
+    public String getCreatedBy() {
+        return createdBy;
     }
-    
-    public void setCreatedBy(String createdBy) { 
-        this.createdBy = createdBy; 
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
-    
-    public UUID getTenantId() { 
-        return tenantId; 
+
+    public UUID getTenantId() {
+        return tenantId;
     }
-    
-    public void setTenantId(UUID tenantId) { 
-        this.tenantId = tenantId; 
+
+    public void setTenantId(UUID tenantId) {
+        this.tenantId = tenantId;
     }
 }
