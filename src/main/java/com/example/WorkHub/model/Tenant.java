@@ -1,4 +1,4 @@
-package com.example.WorkHub.models;
+package com.example.WorkHub.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
