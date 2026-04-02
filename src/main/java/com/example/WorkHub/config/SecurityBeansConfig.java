@@ -2,6 +2,7 @@ package com.example.WorkHub.config;
 
 import com.example.WorkHub.jwt.JwtFilter;
 import com.example.WorkHub.jwt.JwtUtil;
+import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,7 @@ public class SecurityBeansConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )

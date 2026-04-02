@@ -2,6 +2,7 @@ package com.example.WorkHub.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,8 @@ public class JwtUtil {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (SecurityException e) {
+        }
+        catch (SignatureException e) {
             System.out.println("Invalid JWT signature: " + e.getMessage());
         } catch (MalformedJwtException e) {
             System.out.println("Invalid JWT token: " + e.getMessage());

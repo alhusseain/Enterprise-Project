@@ -28,16 +28,20 @@ public class JwtFilter extends OncePerRequestFilter {
         System.out.println(request.getRequestURI());
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-
-            if (jwtUtil.validateJwtToken(token)) {
-                String email = jwtUtil.getEmailFromToken(token);
-                System.out.println("in jwt filter");
-
-                var authToken = new UsernamePasswordAuthenticationToken(
-                        email, null, List.of() );
-
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+            System.out.println("token: " + token);
+            if (!jwtUtil.validateJwtToken(token)) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid bearer token");
+                return;
             }
+
+            String email = jwtUtil.getEmailFromToken(token);
+            System.out.println("email: " + email);
+            System.out.println("in jwt filter");
+
+            var authToken = new UsernamePasswordAuthenticationToken(
+                    email, null, List.of() );
+
+            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
         chain.doFilter(request, response);
