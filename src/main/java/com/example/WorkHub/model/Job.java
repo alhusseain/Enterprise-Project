@@ -14,11 +14,11 @@ public class Job {
     @Column(nullable = false)
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 

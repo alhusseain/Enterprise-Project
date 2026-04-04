@@ -18,11 +18,11 @@ public class Task {
     @Column(nullable = false, length = 2)
     private TaskStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 

@@ -17,7 +17,7 @@ public class Project {
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
