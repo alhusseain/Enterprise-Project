@@ -38,7 +38,7 @@ public class SecurityBeansConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/auth/login","/auth/register", "/h2-console", "/h2-console/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/auth/login","/auth/register", "/h2-console", "/h2-console/**", "/health","/WhatAmI").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
