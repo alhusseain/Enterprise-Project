@@ -15,8 +15,9 @@ public class Task {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 2)
+    private TaskStatus status;
 
     @Column(name = "project_id", nullable = false)
     private UUID projectId;
@@ -48,11 +49,11 @@ public class Task {
         this.title = title;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
