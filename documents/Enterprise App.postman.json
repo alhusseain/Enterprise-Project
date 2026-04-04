@@ -1,0 +1,521 @@
+{
+    "info": {
+        "name": "Enterprise App",
+        "description": "",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "description": "",
+            "item": [
+                {
+                    "name": "Auth/me",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQxQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMTY2OCwiZXhwIjoxNzc1MzM1MjY4LCJ0ZW5hbnRJZCI6IjQ1NTE3ZWY4LTg3MTeyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQyQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMTk2OCwiZXhwIjoxNzc1MzM1NTY4LCJ0ZW5hbnRJZCI6IjJmNTgyZWNhLWI0ZWMtNDRjNi04OWZjLWM1YmE4ODRmNjRjYyJ9.JsPlrTtiKy5bCdObjl_HZEDcsr2q7rxKY-c9JXcfyokgtNDQ2Yi1hNTZlLWY2OWVmNjA5MjMxYSJ9.Z41dlVRenZg3m4IVi6zH9nvSqOXcN7gngQTs8-othTo",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"email\":\"tenant2@gmail.com\",\r\n    \"password\":\"tenant2\",\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/auth/me",
+                            "path": [
+                                "auth",
+                                "me"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "Auth/register",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"email\":\"tenant2@gmail.com\",\r\n    \"password\":\"tenant2\",\r\n    \"tenantId\":\"2f582eca-b4ec-44c6-89fc-c5ba884f64cc\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/auth/register",
+                            "path": [
+                                "auth",
+                                "register"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "Auth/login",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"email\":\"tenant3@gmail.com\",\r\n    \"password\":\"tenant3\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/auth/login",
+                            "path": [
+                                "auth",
+                                "login"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        },
+        {
+            "name": "Project",
+            "description": "",
+            "item": [
+                {
+                    "name": "projects",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQzQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMjEyNywiZXhwIjoxNzc1MzM1NzI3LCJ0ZW5hbnRJZCI6IjQ4MGEzZTU2LWVjMzYtNGI3Mi04M2QyLWRmMDg2OGYxMzY4MyJ9.ZKmOpVl_R_IBkC8oAkKkSohr7s3DGqGrHWsCSv1ExGI",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\":\"soso\",\r\n    \"createdBy\":\"tenant3@gmail.com\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/projects",
+                            "path": [
+                                "projects"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "projects",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQzQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMjEyNywiZXhwIjoxNzc1MzM1NzI3LCJ0ZW5hbnRJZCI6IjQ4MGEzZTU2LWVjMzYtNGI3Mi04M2QyLWRmMDg2OGYxMzY4MyJ9.ZKmOpVl_R_IBkC8oAkKkSohr7s3DGqGrHWsCSv1ExGI",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "body": {},
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/projects",
+                            "path": [
+                                "projects"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "projects/{id}",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQzQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMjEyNywiZXhwIjoxNzc1MzM1NzI3LCJ0ZW5hbnRJZCI6IjQ4MGEzZTU2LWVjMzYtNGI3Mi04M2QyLWRmMDg2OGYxMzY4MyJ9.ZKmOpVl_R_IBkC8oAkKkSohr7s3DGqGrHWsCSv1ExGI",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "body": {},
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/projects/d1aac8e7-0135-419e-b76c-d468e9c75a26",
+                            "path": [
+                                "projects",
+                                "d1aac8e7-0135-419e-b76c-d468e9c75a26"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "projects/{id}/tasks",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQzQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMjEyNywiZXhwIjoxNzc1MzM1NzI3LCJ0ZW5hbnRJZCI6IjQ4MGEzZTU2LWVjMzYtNGI3Mi04M2QyLWRmMDg2OGYxMzY4MyJ9.ZKmOpVl_R_IBkC8oAkKkSohr7s3DGqGrHWsCSv1ExGI",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"title\":\"work on main\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/projects/d1aac8e7-0135-419e-b76c-d468e9c75a26/tasks",
+                            "path": [
+                                "projects",
+                                "d1aac8e7-0135-419e-b76c-d468e9c75a26",
+                                "tasks"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        },
+        {
+            "name": "Tasks",
+            "description": "",
+            "item": [
+                {
+                    "name": "tasks/{id}",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZW5hbnQzQGdtYWlsLmNvbSIsImlhdCI6MTc3NTMzMjEyNywiZXhwIjoxNzc1MzM1NzI3LCJ0ZW5hbnRJZCI6IjQ4MGEzZTU2LWVjMzYtNGI3Mi04M2QyLWRmMDg2OGYxMzY4MyJ9.ZKmOpVl_R_IBkC8oAkKkSohr7s3DGqGrHWsCSv1ExGI",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"status\":\"\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/tasks/b667d402-e97a-45e5-8983-82babab3055a",
+                            "path": [
+                                "tasks",
+                                "b667d402-e97a-45e5-8983-82babab3055a"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        },
+        {
+            "name": "System",
+            "description": "",
+            "item": [
+                {
+                    "name": "health",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "GET",
+                        "body": {},
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/health",
+                            "path": [
+                                "health"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "WhatAmI",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "GET",
+                        "body": {},
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/WhatAmI",
+                            "path": [
+                                "WhatAmI"
+                            ],
+                            "host": [
+                                "localhost"
+                            ],
+                            "protocol": "http",
+                            "port": "8080",
+                            "query": [],
+                            "variable": []
+                        }
+                    },
+                    "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        }
+    ],
+    "variable": [],
+    "event": [],
+    "auth": {}
+}
