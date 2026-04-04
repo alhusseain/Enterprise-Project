@@ -35,7 +35,8 @@ public class AuthService {
 
         userRepository.save(user);
 
-        return jwtUtil.generateToken(email);
+        String tenantId = user.getTenant() != null ? user.getTenant().getId().toString() : null;
+        return jwtUtil.generateToken(email, tenantId);
     }
 
     public String login(String email, String password) {
@@ -47,6 +48,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
-        return jwtUtil.generateToken(email);
+        String tenantId = user.getTenant() != null ? user.getTenant().getId().toString() : null;
+        return jwtUtil.generateToken(email, tenantId);
     }
 }

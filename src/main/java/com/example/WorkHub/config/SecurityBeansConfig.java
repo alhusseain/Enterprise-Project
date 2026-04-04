@@ -2,6 +2,7 @@ package com.example.WorkHub.config;
 
 import com.example.WorkHub.jwt.JwtFilter;
 import com.example.WorkHub.jwt.JwtUtil;
+import com.example.WorkHub.tenant.TenantContextFilter;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,16 +29,21 @@ public class SecurityBeansConfig {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           JwtFilter jwtFilter,
+                                           TenantContextFilter tenantContextFilter) throws Exception {
         System.out.println("SecurityFilterChain bean loaded!");
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/h2-console", "/h2-console/**", "/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(tenantContextFilter, JwtFilter.class)
                 .build();
     }
 }
+
