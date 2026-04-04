@@ -3,8 +3,10 @@ package com.example.WorkHub.service;
 import com.example.WorkHub.jwt.JwtUtil;
 import com.example.WorkHub.model.User;
 import com.example.WorkHub.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -24,7 +26,7 @@ public class AuthService {
     public String register(String email, String password) {
 
         if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("User already exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
 
         User user = new User();
@@ -39,10 +41,10 @@ public class AuthService {
     public String login(String email, String password) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
         return jwtUtil.generateToken(email);

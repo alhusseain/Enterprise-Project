@@ -3,8 +3,10 @@ package com.example.WorkHub.service;
 import com.example.WorkHub.model.Project;
 import com.example.WorkHub.model.Task;
 import com.example.WorkHub.repository.TaskRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -38,7 +40,8 @@ public class TaskService {
     // locking mechanism implemented in the Task table
     @Transactional
     public Task updateTaskStatus(UUID taskId, String newStatus) {
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
         task.setStatus(newStatus);
         return taskRepository.save(task);
     }
