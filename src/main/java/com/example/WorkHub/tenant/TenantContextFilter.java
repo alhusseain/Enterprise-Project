@@ -27,7 +27,7 @@ public class TenantContextFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/auth/");
+        return path.equals("/auth/register") || path.equals("/auth/login");
     }
 
     @Override

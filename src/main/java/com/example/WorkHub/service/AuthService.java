@@ -1,8 +1,10 @@
 package com.example.WorkHub.service;
 
+import com.example.WorkHub.dto.AuthMeResponse;
 import com.example.WorkHub.jwt.JwtUtil;
 import com.example.WorkHub.model.User;
 import com.example.WorkHub.repository.UserRepository;
+import com.example.WorkHub.tenant.TenantContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,5 +52,15 @@ public class AuthService {
 
         String tenantId = user.getTenant() != null ? user.getTenant().getId().toString() : null;
         return jwtUtil.generateToken(email, tenantId);
+    }
+
+    public AuthMeResponse me(String email) {
+        if (email == null || email.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authenticated user");
+        }
+
+        return new AuthMeResponse(
+                email,
+                TenantContext.getTenantId().orElse(null));
     }
 }

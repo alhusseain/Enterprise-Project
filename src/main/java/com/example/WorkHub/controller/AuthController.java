@@ -1,6 +1,8 @@
 package com.example.WorkHub.controller;
 
+import com.example.WorkHub.dto.AuthMeResponse;
 import com.example.WorkHub.service.AuthService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -22,5 +24,11 @@ public class AuthController {
     @GetMapping("/login")
     public String login(@RequestBody Map<String,String> body) {
         return authService.login(body.get("email"), body.get("password"));
+    }
+
+    @GetMapping("/me")
+    public AuthMeResponse me(Authentication authentication) {
+        String email = authentication != null ? authentication.getName() : null;
+        return authService.me(email);
     }
 }
