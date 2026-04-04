@@ -2,7 +2,9 @@ package com.example.WorkHub.service;
 
 import com.example.WorkHub.dto.AuthMeResponse;
 import com.example.WorkHub.jwt.JwtUtil;
+import com.example.WorkHub.model.Tenant;
 import com.example.WorkHub.model.User;
+import com.example.WorkHub.repository.TenantRepository;
 import com.example.WorkHub.repository.UserRepository;
 import com.example.WorkHub.tenant.TenantContext;
 import org.springframework.http.HttpStatus;
@@ -10,35 +12,51 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
+
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final TenantRepository tenantRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     public AuthService(UserRepository userRepository,
+                       TenantRepository tenantRepository,
                        PasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.tenantRepository = tenantRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
-    public String register(String email, String password) {
+    public String register(String email, String password, String tenantIdValue) {
 
         if (userRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
 
+        UUID tenantId;
+        try {
+            tenantId = UUID.fromString(tenantIdValue);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid tenantId format");
+        }
+
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tenant not found"));
+
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password)); // hash
+        user.setTenant(tenant);
 
         userRepository.save(user);
 
-        String tenantId = user.getTenant() != null ? user.getTenant().getId().toString() : null;
-        return jwtUtil.generateToken(email, tenantId);
+        String tenantIdClaim = user.getTenant() != null ? user.getTenant().getId().toString() : null;
+        return jwtUtil.generateToken(email, tenantIdClaim);
     }
 
     public String login(String email, String password) {
