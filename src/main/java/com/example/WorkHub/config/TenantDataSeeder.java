@@ -26,7 +26,7 @@ public class TenantDataSeeder implements CommandLineRunner {
     public void run(String... args) {
         List<TenantSeed> seeds = List.of(
                 new TenantSeed("Oscorp Industires", "BASIC"),
-                new TenantSeed("Globex", "PRO"),
+                new TenantSeed("FawryPay", "PRO"),
                 new TenantSeed("Initech", "ENTERPRISE")
         );
 
