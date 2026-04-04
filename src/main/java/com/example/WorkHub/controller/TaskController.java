@@ -2,6 +2,7 @@ package com.example.WorkHub.controller;
 
 import com.example.WorkHub.dto.TaskUpdateRequest;
 import com.example.WorkHub.model.Task;
+import com.example.WorkHub.model.TaskStatus;
 import com.example.WorkHub.service.TaskService;
 import jakarta.validation.Valid;
 
@@ -27,7 +28,7 @@ public class TaskController {
             @PathVariable UUID id,
             @Valid @RequestBody TaskUpdateRequest request) {
 
-        Task updatedTask = taskService.updateTaskStatus(id, request.status());
+        Task updatedTask = taskService.updateTaskStatus(id, TaskStatus.valueOf(request.status()));
         return new ResponseEntity<>(updatedTask, HttpStatus.ACCEPTED);
     }
 }
