@@ -32,7 +32,7 @@ public class TaskService {
         Task task = new Task();
         task.setTitle(title);
         task.setStatus(TaskStatus.P);
-        task.setProjectId(project.getId());
+        task.setProject(project);
 
         return taskRepository.save(task);
     }

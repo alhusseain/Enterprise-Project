@@ -1,7 +1,6 @@
 package com.example.WorkHub.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.TenantId;
 import org.jspecify.annotations.Nullable;
 import java.util.UUID;
 
@@ -22,10 +21,9 @@ public class User {
     @Column(nullable = false)
     private String roles;
 
-    // @TenantId // re-enable this, and set nullable to false when tenant context
-    // managing is completed
-    @Column(name = "tenant_id", nullable = true)
-    private UUID tenantId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tenant_id")
+    private Tenant tenant;
 
     public User() {
     }
@@ -62,11 +60,11 @@ public class User {
         this.roles = roles;
     }
 
-    public UUID getTenantId() {
-        return tenantId;
+    public Tenant getTenant() {
+        return tenant;
     }
 
-    public void setTenantId(UUID tenantId) {
-        this.tenantId = tenantId;
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 }

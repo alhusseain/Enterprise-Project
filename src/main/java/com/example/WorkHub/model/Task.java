@@ -1,7 +1,6 @@
 package com.example.WorkHub.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.TenantId;
 import java.util.UUID;
 
 @Entity
@@ -19,13 +18,13 @@ public class Task {
     @Column(nullable = false, length = 2)
     private TaskStatus status;
 
-    @Column(name = "project_id", nullable = false)
-    private UUID projectId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 
-    // @TenantId // re-enable this, and set nullable to false when tenant context
-    // managing is completed
-    @Column(name = "tenant_id", nullable = true)
-    private UUID tenantId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tenant_id")
+    private Tenant tenant;
 
     @Version
     private Long version;
@@ -57,20 +56,20 @@ public class Task {
         this.status = status;
     }
 
-    public UUID getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(UUID projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public UUID getTenantId() {
-        return tenantId;
+    public Tenant getTenant() {
+        return tenant;
     }
 
-    public void setTenantId(UUID tenantId) {
-        this.tenantId = tenantId;
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 
     public Long getVersion() {
