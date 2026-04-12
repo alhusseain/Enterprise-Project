@@ -2,7 +2,6 @@ package com.example.WorkHub.config;
 
 import com.example.WorkHub.jwt.JwtFilter;
 import com.example.WorkHub.jwt.JwtUtil;
-import com.example.WorkHub.tenant.TenantContextFilter;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +29,7 @@ public class SecurityBeansConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-                                           JwtFilter jwtFilter,
-                                           TenantContextFilter tenantContextFilter) throws Exception {
+                                           JwtFilter jwtFilter) throws Exception {
         System.out.println("SecurityFilterChain bean loaded!");
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -42,7 +40,6 @@ public class SecurityBeansConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(tenantContextFilter, JwtFilter.class)
                 .build();
     }
 }

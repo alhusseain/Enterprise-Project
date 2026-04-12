@@ -24,6 +24,8 @@ public class ProjectService {
         Project project = new Project();
         project.setName(name);
         project.setCreatedBy(createdByEmail);
+        // get the current auth from security context
+        // if its a tenant auth token, grab the tenant and set it on the project
         return projectRepository.save(project);
     }
 

@@ -20,6 +20,8 @@ public class User {
     private String password;
 
     @ManyToOne
+    // @JoinColumn(name = "tenant_id", nullable = false) this is off for the same
+    // reason as project.java
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 

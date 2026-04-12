@@ -18,6 +18,8 @@ public class Project {
     private String createdBy;
 
     @ManyToOne
+    // @JoinColumn(name = "tenant_id", nullable = false) commented it for now until
+    // we implement the tenant isolation
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 

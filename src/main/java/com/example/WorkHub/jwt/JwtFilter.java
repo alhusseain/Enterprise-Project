@@ -20,8 +20,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain)
+            HttpServletResponse response,
+            FilterChain chain)
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
@@ -38,8 +38,19 @@ public class JwtFilter extends OncePerRequestFilter {
             System.out.println("email: " + email);
             System.out.println("in jwt filter");
 
-            var authToken = new UsernamePasswordAuthenticationToken(
-                    email, null, List.of() );
+            String tenantIdClaim = jwtUtil.getTenantIdFromToken(token);
+            java.util.UUID tenantId = null;
+            if (tenantIdClaim != null && !tenantIdClaim.isBlank()) {
+                try {
+                    tenantId = java.util.UUID.fromString(tenantIdClaim);
+                } catch (IllegalArgumentException e) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid tenant id");
+                    return;
+                }
+            }
+
+            var authToken = new TenantAuthenticationToken(
+                    email, null, tenantId, List.of());
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }

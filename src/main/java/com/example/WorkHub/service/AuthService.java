@@ -6,7 +6,9 @@ import com.example.WorkHub.model.Tenant;
 import com.example.WorkHub.model.User;
 import com.example.WorkHub.repository.TenantRepository;
 import com.example.WorkHub.repository.UserRepository;
-import com.example.WorkHub.tenant.TenantContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.example.WorkHub.jwt.TenantAuthenticationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -77,8 +79,14 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authenticated user");
         }
 
+        UUID tenantId = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof TenantAuthenticationToken tenantAuth) {
+            tenantId = tenantAuth.getTenantId();
+        }
+
         return new AuthMeResponse(
                 email,
-                TenantContext.getTenantId().orElse(null));
+                tenantId);
     }
 }
