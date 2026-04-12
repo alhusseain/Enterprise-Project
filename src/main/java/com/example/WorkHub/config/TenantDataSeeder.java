@@ -27,8 +27,7 @@ public class TenantDataSeeder implements CommandLineRunner {
         List<TenantSeed> seeds = List.of(
                 new TenantSeed("Oscorp Industires", "BASIC"),
                 new TenantSeed("FawryPay", "PRO"),
-                new TenantSeed("Initech", "ENTERPRISE")
-        );
+                new TenantSeed("Initech", "ENTERPRISE"));
 
         Set<String> existingNames = tenantRepository.findAll()
                 .stream()
@@ -47,6 +46,23 @@ public class TenantDataSeeder implements CommandLineRunner {
 
         if (!missingTenants.isEmpty()) {
             tenantRepository.saveAll(missingTenants);
+        }
+
+        // Dump a tenant ID into a file for automated testing scripts
+        // this is only for testing purposes dont worry about it :D
+        // this whole class is for testing purposes anyways.
+        try {
+            List<Tenant> allTenants = tenantRepository.findAll();
+            if (!allTenants.isEmpty()) {
+                String firstTenantId = allTenants.get(0).getId().toString();
+                java.nio.file.Files.writeString(
+                        java.nio.file.Path.of(".tenant_ids.txt"),
+                        firstTenantId,
+                        java.nio.file.StandardOpenOption.CREATE,
+                        java.nio.file.StandardOpenOption.TRUNCATE_EXISTING);
+            }
+        } catch (java.io.IOException e) {
+            System.err.println("Failed to write .tenant_ids.txt for testing script");
         }
     }
 
