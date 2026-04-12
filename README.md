@@ -13,8 +13,6 @@ A multi-tenant Spring Boot REST API with JWT authentication, project management,
 | IntelliJ IDEA | 2023.1+ (Community or Ultimate) |
 | Postman | Any recent version |
 
-
-
 ## Running on IntelliJ IDEA
 
 ### 1. Open the project
@@ -48,12 +46,13 @@ This downloads all dependencies and builds the project without running tests.
 
 - Locate `WorkHubApplication.java` under `src/main/java/com/example/WorkHub/`.
 - Click the green **Run** arrow next to the class declaration, or right-click the file and choose **Run 'WorkHubApplication'**.
-- The server starts on **http://localhost:8080**.
+- The server starts on **<http://localhost:8080>**.
 
 > **Alternative IntelliJ Maven tool window:**
 > Open the **Maven** panel → **Plugins → spring-boot → spring-boot:run** and double-click it.
 >
 > **Alternative   terminal:**
+>
 > ```bash
 > mvnw.cmd spring-boot:run
 > ```
@@ -70,7 +69,7 @@ On first startup the application automatically seeds **three tenants** into the 
 
 You will need a **Tenant ID** when registering a new user. Retrieve them as follows:
 
-1. Open your browser and navigate to **http://localhost:8080/h2-console**.
+1. Open your browser and navigate to **<http://localhost:8080/h2-console>**.
 2. Fill in the connection form with these exact values and click **Connect**:
 
    | Field | Value |
@@ -88,7 +87,6 @@ You will need a **Tenant ID** when registering a new user. Retrieve them as foll
 
 4. Copy any `ID` value from the result   you will paste it as `tenantId` in the register request.
 
-
 ## Importing the Postman Collection
 
 1. Open Postman.
@@ -102,8 +100,6 @@ You will need a **Tenant ID** when registering a new user. Retrieve them as foll
    | Project | `POST /projects`, `GET /projects`, `GET /projects/{id}`, `POST /projects/{id}/tasks` |
    | Tasks | `PATCH /tasks/{id}` |
    | System | `GET /health`, `GET /WhatAmI` |
-
-
 
 ## Typical First-Run Workflow
 
@@ -173,7 +169,6 @@ Replace `{id}` with the task ID returned in Step 5.
 }
 ```
 
-
 ## Configuration Reference (`application.properties`)
 
 | Property | Value |
@@ -184,3 +179,19 @@ Replace `{id}` with the task ID returned in Step 5.
 | DB username | `sa` |
 | DB password | *(empty)* |
 | JWT expiration | `3600000` ms (1 hour) |
+
+## Testing Optimistic Locking (Concurrency)
+
+We have (`test_concurrency.py`) in the root directory to showcase database transactions and the **Optimistic Locking** mechanism in action. It spins up two parallel threads that attempt to claim the exact same `Task` simultaneously to prove that the API properly rejects concurrent modifications.
+
+**To run the test:**
+
+1. Stop your Spring Boot application if it's currently running.
+2. Start (or restart) the application so the database seeds a fresh `.tenant_ids.txt` file.
+3. Open a separate terminal and run:
+
+   ```bash
+   python test_concurrency.py
+   ```
+
+4. Observe the terminal output: One thread will gracefully succeed with a `202 Accepted`, while the other will trigger an Optimistic Lock exception and should roll-back in the database.
