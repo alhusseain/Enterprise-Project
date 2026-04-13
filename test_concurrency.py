@@ -13,17 +13,17 @@ def run_test():
         print(f"Oops! I can't find {TENANT_FILE}. Rerun the app first.")
         sys.exit(1)
 
-    # Grab the tenant ID that we sneakily dumped
+    # Grab the tenant IDs we dumped in the .txt file
     with open(TENANT_FILE, 'r') as f:
         tenant_id = f.read().strip()
     
     print(f"Testing on Tenant ID: {tenant_id}")
 
-    # Whip up a random email so we don't trip over "User Already Exists" errors
+    # Creating a random email, avoiding conflicts.
     random_email = f"test_{uuid.uuid4().hex[:6]}@example.com"
     password = "password123"
 
-    # Let's register our fake user
+    # Registering fake user
     print(f"Registering our test user: {random_email}")
     register_resp = requests.post(f"{BASE_URL}/auth/register", json={
         "email": random_email,
@@ -45,7 +45,7 @@ def run_test():
     token = login_resp.text.strip()
     headers = {"Authorization": f"Bearer {token}"}
 
-    # Set up the scene: create a blank project
+    # blank project creation
     print("Creating a fresh project...")
     proj_resp = requests.post(f"{BASE_URL}/projects", json={
         "name": "Concurrency Test Project",
@@ -54,7 +54,7 @@ def run_test():
     
     project_id = proj_resp.json()["id"]
 
-    # Drop a fresh, untouched task in there
+    # Adding a new task
     print("Dropping a task in the project...")
     task_resp = requests.post(f"{BASE_URL}/projects/{project_id}/tasks", json={
         "title": "Explode the DB"
@@ -63,8 +63,7 @@ def run_test():
     task_id = task_resp.json()["id"]
     print(f"Task created with ID: {task_id}")
 
-    # 6. The Concurrency Test
-    print("\n--- INITIATING CONCURRENT PATCH REQUESTS ---")
+    print("\n INITIATING CONCURRENT PATCH REQUESTS ")
     
     results = []
     
@@ -73,19 +72,21 @@ def run_test():
             resp = requests.patch(f"{BASE_URL}/tasks/{task_id}", json={
                 "status": new_status
             }, headers=headers)
-            results.append(f"{thread_name} Finished! Status Code: {resp.status_code}")
+            try:
+                body = resp.json()
+            except Exception:
+                body = resp.text
+            results.append(f"{thread_name} Finished! Status Code: {resp.status_code} | Response: {body}")
         except Exception as e:
             results.append(f"{thread_name} Failed: {str(e)}")
 
-    # Create two threads trying to take the EXACT same task simultaneously
     thread1 = threading.Thread(target=patch_task, args=("IP", "Thread A (Claiming Task)"))
     thread2 = threading.Thread(target=patch_task, args=("IP", "Thread B (Claiming Task)"))
 
-    # Start them at the exact same time
+    # Running both threads then waiting for them to finish
     thread1.start()
     thread2.start()
 
-    # Wait for both to finish
     thread1.join()
     thread2.join()
 
@@ -93,10 +94,10 @@ def run_test():
     for r in results:
         print(r)
         
-    print("\nNotice how one thread succeeds (200 OK), and the other fails, which should be a 5XX error and not 409 since 409 is for when the client is the one who made the mistake transitioning to a state that is not allowed.")
-    print("The database rejected the second thread because the version changed, triggering a rollback!")
+    print("\nNotice how one thread succeeds (200 OK), and the other gets 409 Conflict not because the client chose a bad transition, but because the optimistic lock version changed under it (a concurrent modification). The error message distinguishes this from an invalid state machine transition.")
+    print("The database rejected the second thread because the version changed, triggering a rollback")
 
-    # Cleanup the file
+    # Cleanup 
     os.remove(TENANT_FILE)
     print("\nCleaned up .tenant_ids.txt")
 
